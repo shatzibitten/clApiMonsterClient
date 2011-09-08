@@ -1,7 +1,9 @@
 clApiMonsterClient
 
-Client for maps API citylife.kz
+Client for CL Maps API citylife.kz
+
+Full information about response structre you can find here (http://dev.citylife.kz/mapsapi)
 
 version 0.1 
-- Work with references (Работа со справочниками http://dev.citylife.kz/mapsapi)
+- Work with references (Работа со справочниками)
 - Query objects      
