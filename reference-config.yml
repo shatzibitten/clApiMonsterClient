@@ -1,0 +1,6 @@
+towns:            [ "id", "country_code" ]
+countries:        [ "code" ]
+company_types:    [ "company_types" ]
+banks:            [ "id", "town_id" ]
+autocharges:      [ "id", "town_id" ]
+word_suggestions: [ "keyword", "town_id", "type" ]
