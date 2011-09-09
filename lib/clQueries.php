@@ -9,6 +9,7 @@ include "lib/sfYaml.php";
 
 /**
  * @todo Добавить различные возможности хранения настроек.
+ *        Приводить к CamelCase названия параметров запроса  
  */
 class CLQuery { 
     const   XML_FORMAT      = ".xml";   //response type
