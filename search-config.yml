@@ -1,0 +1,9 @@
+company:          ["keyword", "town_id", "type_id", "lat", "lng", "page_number", "items_per_page", "version"]
+
+autobus_stopping: ["keyword", "town_id", "lat", "lng", "page_number", "items_per_page"]
+
+cashdisp:         ["id", "town_id", "lat", "lng", "page_number", "items_per_page", "version"]
+
+autocharge:       ["id", "town_id", "lat", "lng", "page_number", "items_per_page", "version"]
+
+autobus_route:    ["number", "type", "disable_stoppings", "town_id", "page_number", "items_per_page", "version"]
