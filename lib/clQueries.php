@@ -11,7 +11,7 @@ include "lib/sfYaml.php";
  * @todo Добавить различные возможности хранения настроек.
  *        Приводить к CamelCase названия параметров запроса  
  */
-class CLQuery { 
+class clQuery { 
     const   XML_FORMAT      = ".xml";   //response type
     const   JSON_FORMAT     = ".json";  //response type
     //used in __call method to indicate special method call
@@ -189,7 +189,7 @@ class CLQuery {
 
 }
 
-class CLReferencesQuery extends CLQuery {
+class clReferencesQuery extends clQuery {
     const   TOWN_CONTEXT           = "towns";
     const   COUNTRY_CONTEXT        = "countries";
     const   CMPNY_TYPE_CONTEXT     = "company_types";
@@ -200,7 +200,7 @@ class CLReferencesQuery extends CLQuery {
     protected $sourceName   = "reference";   
 }
 
-class CLSearchQuery extends CLQuery {
+class clSearchQuery extends CLQuery {
     protected $sourceName   = "search"; 
 }
 ?>
