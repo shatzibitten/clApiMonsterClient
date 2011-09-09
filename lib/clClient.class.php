@@ -33,7 +33,7 @@ class clClient {
     private $mode,
             $response;
        
-    public function __construct($xml = null, $url = null, $api = null) {
+    public function __construct($url = null, $api = null) {
         $this->_URL = is_null($url) ? $this->_URL : $url;
         $this->_API = is_null($api) ? $this->_API : $api;
     }
