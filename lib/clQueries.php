@@ -75,7 +75,7 @@ class clQuery {
             }
            else 
             {
-             throw new Exception("Call to undefined method CLQuery");   
+             throw new Exception("Call to undefined method clQuery");   
             }
          }
     }
@@ -201,6 +201,12 @@ class clReferencesQuery extends clQuery {
 }
 
 class clSearchQuery extends CLQuery {
+    const CMPNY_CONTEXT         = "company";
+    const AUTOBUS_CONTEXT       = "autobus_stopping";
+    const CASHDISP_CONTEXT      = "cashdisp";
+    const AUTOCHARGES_CONTEXT   = "autocharge";
+    const AUTOBUS_ROUTE_CONTEXT = "autobus_route";
+    
     protected $sourceName   = "search"; 
 }
 ?>
