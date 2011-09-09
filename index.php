@@ -2,8 +2,8 @@
 include "lib/clCLient.class.php";
 include "lib/clQueries.php";
 
-$client = new CLclient();
-$query  = new CLReferencesQuery(CLReferencesQuery::TOWN_CONTEXT);
+$client = new clClient();
+$query  = new clReferencesQuery(clReferencesQuery::TOWN_CONTEXT);
 
 $query->getByCountry_code("kz");
 
