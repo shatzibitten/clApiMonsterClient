@@ -2,7 +2,7 @@
 include "lib/clCLient.class.php";
 include "lib/clQueries.php";
 
-header ('Content-type: text/html; charset=utf-8');
+header ('Content-type: text/html; charset=utf-8'); 
 
 $client = new clClient();
 $query  = new clReferencesQuery(clReferencesQuery::TOWN_CONTEXT);
@@ -12,5 +12,5 @@ $query->getByCountry_code("kz");
 $client->executeQuery($query);
 
 
-echo $client->getAllResponse(true);
+echo $client->getAllResponse("raw"); //for correct xml view in raw mode change Content-type to text/xml
 ?>
