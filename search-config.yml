@@ -1,3 +1,4 @@
+#@todo: Mark required parameter with *. For example: "*keyword"
 company:          ["keyword", "town_id", "type_id", "lat", "lng", "page_number", "items_per_page", "version"]
 
 autobus_stopping: ["keyword", "town_id", "lat", "lng", "page_number", "items_per_page"]
