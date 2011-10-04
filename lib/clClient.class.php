@@ -193,7 +193,11 @@ class clClient {
         return $response[0];
     }
     
-    public function addToResultSet($param) {
+    public function getByResultSet() {
+        
+    }
+    
+    public function addToResultSet($block) {
         
     }
 
@@ -210,7 +214,7 @@ class clClient {
         return $this->_URL.$query."&key=".$this->getAPIkey();
     } 
     
-    private function isValidAPI() {
+    protected function isValidAPI() {
         
     } 
     
