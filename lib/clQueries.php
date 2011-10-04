@@ -3,7 +3,7 @@
  * Query generators for citylife.kz request's
  *
  * @author shatzibitten
- * @version 0.1
+ * @version 0.2
  */
 include "lib/sfYaml.php";
 
@@ -12,27 +12,38 @@ include "lib/sfYaml.php";
  *        Приводить к CamelCase названия параметров запроса  
  */
 class clQuery { 
-    const   XML_FORMAT      = ".xml";   //response type
-    const   JSON_FORMAT     = ".json";  //response type
+    const   XML_FORMAT              = ".xml";   //response type
+    const   JSON_FORMAT             = ".json";  //response type
     //used in __call method to indicate special method call
-    const   GET_BY_PATTERN  = "getBy";   
-    const   GET_ALL_PATTERN = "getAll"; 
-    const   QUERY_PARAM_DELIMITER = "&";
+    const   GET_BY_PATTERN          = "getBy";   
+    const   GET_ALL_PATTERN         = "getAll"; 
+    const   QUERY_PARAM_DELIMITER   = "&";
+    const   REQUIRED_PARAM          = "*";
     
     protected $sourceName,
+              $params,
               $registeredParams,
               $format,
               $config,
               $context,
               $query;
     
+    private $requiredParams = array();
     private $_cnfName = "config.yml";
     
     public function __construct($context = null) {
         try 
          {  
-          $this->context            = $context;
+                   
+          $this->loadConfig();
+          
+          if ($this->isValidContext($context))
+           {
+            $this->context = $context;
+           }
+           
           $this->registeredParams   = array();
+          $this->requiredParams     = $this->collectRequiredParams();
           $this->format             = self::XML_FORMAT; //default format
           $this->query              = $this->generateRoot();
 
@@ -47,8 +58,6 @@ class clQuery {
           echo $e->getLine(); 
           die($e->getMessage());  
          }
-         
-        $this->loadConfig();
     }
     
     public function __call($name, $args) {       
@@ -71,7 +80,7 @@ class clQuery {
              $value = is_null($args[0]) ? 0 : $args[0];
              $param = $key."=".$value;
              $this->appendQueryParams($param);
-             $this->registerParam($match[1]); 
+             $this->regParam($match[1]); 
             }
            else 
             {
@@ -107,6 +116,10 @@ class clQuery {
         return $this->query;
     }
     
+    public function getRequiredParams() {
+        return $this->requiredParams;
+    }    
+    
     /**
      *
      * @param type $format
@@ -120,6 +133,16 @@ class clQuery {
     
     public function getFormat() {
         return $this->format;
+    }
+    
+    public function validateQuery() {
+        $req = $this->getRequiredParams();
+        if (empty($req))
+         {
+          return true;  
+         }
+        
+        return false;
     }
     
     /**
@@ -150,21 +173,31 @@ class clQuery {
     }
     
     /**
+     * Validate context
+     * @param  string $context
+     * @return boolean Die if context isn't correct, otherwise return true
+     */
+    private function isValidContext($context) {
+        
+        if (!isset($this->config[$context]))
+         {
+          die("{$context} option doesn't exist! Check your file - ".$this->getConfigFileName());  
+         }
+        
+        return true; 
+    }
+    
+    /**
      * Retrive option from config file by key.
      * 
      * @param  string $option Option key
      * @return string Return option value from config file.  
      */
     private function getConfigOption($option) {
-        if (!isset($this->config[$this->context]))
-         {
-          die("{$this->context} option doesn't exist! Check your file - ".$this->getConfigFileName());  
-         }
-
+        
         $option = strtolower($option);
-         
-          
-        if (in_array($option, $this->config[$this->context]))
+                   
+        if (in_array($option, $this->clearParam($this->config[$this->context])))
          { 
           return $option;  
          }
@@ -172,14 +205,66 @@ class clQuery {
         return false;
     }
     
+    /**
+     * Retrive all params of the current context
+     * @return array  Array of parameters
+     */
+    private function getAllOptions() {
+        return $this->config[$this->context];
+    }
+    
     private function getRegistredParams() {
         return $this->registeredParams;
     }
     
-    private function registerParam($param) {
-        array_unshift($this->registeredParams, $param);        
+    private function regParam($param) {
+        array_unshift($this->getRegistredParams(), $param); //reg param
+          
+        //exclude param from array if in it
+        $req_array = $this->getRequiredParams();
+
+        if (in_array(strtolower($param), $req_array))
+         {
+            $srchd_key = array_search(strtolower($param), $req_array);
+            unset($this->requiredParams[$srchd_key]);
+         }
     }
     
+    /**
+     * Collect all required parameters from config file. 
+     */
+    private function collectRequiredParams() {
+        $dst = array();
+        foreach ($this->getAllOptions() as $param) 
+         {
+            if ($this->paramIsRequired($param) === true) 
+             {
+                $dst[] = $this->clearParam($param);   
+             }
+ 
+         }
+
+         return $dst;
+    }
+    
+
+    private function paramIsRequired($param) {
+       
+        if (stripos($param, "*") !== false)
+               return true;
+       
+       return false;
+    }
+    
+    /**
+     * Delete required identificator from param
+     * @param  string $param parameter name
+     * @return string Common parameter without required param identificator 
+     */
+    private function clearParam($param) {
+        return str_replace(self::REQUIRED_PARAM,"",$param);
+    }
+            
     /**
      * Generate root query.
      */

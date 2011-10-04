@@ -8,9 +8,16 @@ $client = new clClient();
 $query  = new clReferencesQuery(clReferencesQuery::TOWN_CONTEXT);
 
 $query->getByCountry_code("kz");
+$query->getById(1);
 
-$client->executeQuery($query);
+if ($query->validateQuery())
+ {
+  $client->executeQuery($query);
+  echo $client->getAllResponse("raw"); //for correct xml view in raw mode change Content-type to text/xml
 
-
-echo $client->getAllResponse("raw"); //for correct xml view in raw mode change Content-type to text/xml
+ }
+else
+ {
+  die("Please init these parameters: ".implode(",",$query->getRequiredParams()));
+ }
 ?>

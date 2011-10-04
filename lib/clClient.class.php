@@ -5,7 +5,7 @@
  * API client for citylife.kz
  * 
  * @link API documentation http://dev.citylife.kz/mapsapi
- * @version 0.1
+ * @version 0.2
  * @author shatzibitten
  * фывы
  * @todo Поддержка "поисков".
