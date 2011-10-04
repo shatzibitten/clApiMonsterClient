@@ -1,3 +1,4 @@
+#You can mark param as required. Just use * as element prefix
 towns:            [ "*id", "country_code" ]
 countries:        [ "code" ]
 company_types:    [ "company_types" ]
