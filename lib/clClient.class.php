@@ -7,7 +7,7 @@
  * @link API documentation http://dev.citylife.kz/mapsapi
  * @version 0.1
  * @author shatzibitten
- * 
+ * фывы
  * @todo Поддержка "поисков".
  *       Переписать извлечение информации из блоков
  */
