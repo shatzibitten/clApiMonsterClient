@@ -7,3 +7,8 @@ Full information about response structre you can find here (http://dev.citylife.
 version 0.1 
 - Work with references (Работа со справочниками)
 - Query objects      
+
+version 0.2
+- Work with searches
+- Required parameters. 
+  You can mark parameters as required in config file and validate your query
