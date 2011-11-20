@@ -14,4 +14,4 @@ version 0.2
   You can mark parameters as required in config file and validate your query
 updated (21.11.2011)
 - Now, you can "freeze" your query (clQuery instance). After "freeze" user cannot change query parameters.
-- Chain objects for clQuery. Like jQuery.
+- Chain objects for clQuery. Like in jQuery.
