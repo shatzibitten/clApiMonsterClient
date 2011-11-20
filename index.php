@@ -7,8 +7,12 @@ header ('Content-type: text/html; charset=utf-8');
 $client = new clClient();
 $query  = new clReferencesQuery(clReferencesQuery::TOWN_CONTEXT);
 
-$query->getByCountry_code("kz");
-$query->getById(1);
+
+$query->getByCountry_code("kz")
+      ->getById(1);
+
+//after calling this method, you cannot make any changes
+$query->freeze();
 
 if ($query->validateQuery())
  {

@@ -2,14 +2,17 @@
 /**
  * Query generators for citylife.kz request's
  *
- * @author shatzibitten
- * @version 0.2
+ * @author   shatzibitten
+ * @version  0.2
+ * @internal 21.11.2011 - add freeze status to query objects. 
+ * 
+ * @todo: Query classes generator.
  */
 include "lib/sfYaml.php";
 
 /**
  * @todo Добавить различные возможности хранения настроек.
- *        Приводить к CamelCase названия параметров запроса  
+ *       Приводить к CamelCase названия параметров запроса  
  */
 class clQuery { 
     const   XML_FORMAT              = ".xml";   //response type
@@ -28,8 +31,9 @@ class clQuery {
               $context,
               $query;
     
+    private $_freeze        = false;
     private $requiredParams = array();
-    private $_cnfName = "config.yml";
+    private $_cnfName       = "config.yml";
     
     public function __construct($context = null) {
         try 
@@ -60,11 +64,20 @@ class clQuery {
          }
     }
     
+    /*
+     * Return object. You can create object chain.
+     * @exceptions: Throw exception if object was frozen before.
+     */
     public function __call($name, $args) {       
 //        if (preg_match("#^".self::GET_ALL_PATTERN."#i", $name, $match))
 //         {
 //          $this->setQuery(""); 
 //         }
+        
+        if ($this->wasFrozen())
+         {
+          throw new Exception("Object was frozen!");   
+         }
          
         if (preg_match("#^".self::GET_BY_PATTERN."(\w+)#i", $name, $match)) 
          {
@@ -86,6 +99,8 @@ class clQuery {
             {
              throw new Exception("Call to undefined method clQuery");   
             }
+            
+            return $this;
          }
     }
     
@@ -143,6 +158,15 @@ class clQuery {
          }
         
         return false;
+    }
+    
+    /**
+     * Freeze query. After calling this method you cannot to add or delete parameters to query.
+     */
+    public function freeze() {
+        $this->_freeze = true;
+        
+        return true;
     }
     
     /**
@@ -217,6 +241,11 @@ class clQuery {
         return $this->registeredParams;
     }
     
+    /**
+     * Register new query parameter.
+     * @param type $param 
+     * 
+     */
     private function regParam($param) {
         array_unshift($this->getRegistredParams(), $param); //reg param
           
@@ -270,6 +299,14 @@ class clQuery {
      */
     private function generateRoot() {
        return $this->sourceName."/".$this->context.$this->format."?";
+    }
+    
+    /**
+     * Check current freeze status.
+     * @return boolean return freeze status 
+     */
+    private function wasFrozen() {
+        return $this->_freeze;
     }
 
 }

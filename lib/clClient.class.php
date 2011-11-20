@@ -53,20 +53,18 @@ class clClient {
     }
     
     public function executeQuery(clQuery $query) {
-        $format = $query->getFormat();
+        $format         =  $query->getFormat();
+        $data_source    =  $this->buildRequestUrl($query->getQuery());
         
         switch($format) 
          {
-            case clQuery::XML_FORMAT:
-                $data_source    =  $this->buildRequestUrl($query->getQuery());
-                $this->response = new SimpleXMLElement($data_source, NULL, TRUE);
-                
+            case clQuery::XML_FORMAT:                 
+                $this->response = new SimpleXMLElement($data_source, NULL, TRUE);               
                 $this->setMode(self::$XML_MODE);
             break;
             
             case clQuery::JSON_FORMAT:
-                $jsonURL        = $this->buildRequestUrl($query->getQuery());
-                $json           = file_get_contents($jsonURL);
+                $json           = file_get_contents($data_source);
                 $this->response = json_decode($json);
                 
                 $this->setMode(self::$JSON_MODE);
